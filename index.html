@@ -8,7 +8,9 @@
         :root {
             --primary-color: #6C63FF;
             --secondary-color: #4CAF50;
-            --background-color: #1A1A2E;
+            --h1-color: #04007561;
+            --h2-color: #070A0E;
+            --background-color: #73737c;
             --text-color: #E0E0E0;
         }
 
@@ -85,7 +87,7 @@
         }
 
         h1, h2 {
-            color: var(--primary-color);
+            color: var(--h1-color);
             margin-bottom: 1rem;
         }
 
@@ -98,8 +100,7 @@
         }
 
         form {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0);
             border-radius: 8px;
             max-width: 500px;
             margin: 0 auto;
@@ -251,17 +252,72 @@
         .developer-icon:hover {
             color: var(--secondary-color);
         }
+
+        /* WinCleaner Section */
+        .tool-card {
+            background-color: rgba(255, 255, 255, 0);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .tool-card h3 {
+            color: var(--h2-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Browser Tools Section */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .tool-grid .tool-card {
+            background-color: rgba(255, 255, 255, 0);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .tool-grid .tool-card h3 {
+            color: var(--h2-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Video Container */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        #bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
+    <!-- Video Container -->
+    <div class="video-container">
+        <video id="bg-video" muted>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
     <header>
         <nav class="container">
             <div class="logo">Survey World of Farhan</div>
             <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="wincleaner.html" target="_blank">WinCleaner</a>
-                <a href="browser.html" target="_blank">Browser</a>
-                <a href="index.html">Contact</a>
+                <a href="#home">Home</a>
+                <a href="#wincleaner">WinCleaner</a>
+                <a href="#browser">Browser</a>
+                <a href="#contact">Contact</a>
             </div>
             <button class="mobile-menu-btn">☰</button>
         </nav>
@@ -288,6 +344,53 @@
                     </div>
                     <button type="submit">Generate Random Person</button>
                 </form>
+            </div>
+        </section>
+
+        <section id="wincleaner">
+            <div class="container">
+                <h1>WinCleaner</h1>
+                <p>Optimize your Windows system with our powerful cleaning tool</p>
+                <div class="tool-card">
+                    <h3>Optimize your Windows system with our powerful cleaning tool</h3>
+                    <p>Download and extract the zip file. After extracting, open the .exe file by "Run as Administrator".</p>
+                    <a href="https://drive.usercontent.google.com/download?id=1hwc0WcJbgWXrGJ8UoDRGzvpMhXNLkShE&export=download&authuser=0" target="_blank">
+                        <button>Download WinCleaner</button>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="browser">
+            <div class="container">
+                <h1>Browser Tools</h1>
+                <p>Enhance your browsing experience with these powerful tools</p>
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h3>GoLogin</h3>
+                        <a href="https://gologin.com/" target="_blank"><button>Visit GoLogin</button></a>
+                    </div>
+                    <div class="tool-card">
+                        <h3>AdsPower</h3>
+                        <a href="https://www.adspower.com/" target="_blank"><button>Visit AdsPower</button></a>
+                    </div>
+                    <div class="tool-card">
+                        <h3>Incognition</h3>
+                        <a href="https://incogniton.com/" target="_blank"><button>Visit Incognition</button></a>
+                    </div>
+                    <div class="tool-card">
+                        <h3>Dolphin{anty}</h3>
+                        <a href="https://dolphin-anty.com/" target="_blank"><button>Visit Dolphin{anty}</button></a>
+                    </div>
+                    <div class="tool-card">
+                        <h3>MoreLogin</h3>
+                        <a href="https://www.morelogin.com/" target="_blank"><button>Visit MoreLogin</button></a>
+                    </div>
+                    <div class="tool-card">
+                        <h3>ClonBrowser</h3>
+                        <a href="https://www.clonbrowser.com/" target="_blank"><button>Visit ClonBrowser</button></a>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -384,6 +487,33 @@
                 modal.style.display = 'none';
             }
         };
+
+        // Scroll-controlled video playback
+        document.addEventListener("DOMContentLoaded", () => {
+            const video = document.querySelector("#bg-video");
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            let requestId = null;
+
+            const smoothUpdate = () => {
+                const scrollPosition = window.scrollY;
+                const scrollFraction = scrollPosition / maxScroll;
+                const videoTime = scrollFraction * video.duration;
+
+                video.currentTime = videoTime;
+                requestId = null; // Reset requestId to allow new requests
+            };
+
+            const handleScroll = () => {
+                // Use requestAnimationFrame for smoother updates
+                if (!requestId) {
+                    requestId = requestAnimationFrame(smoothUpdate);
+                }
+            };
+
+            video.addEventListener("loadedmetadata", () => {
+                window.addEventListener("scroll", handleScroll);
+            });
+        });
     </script>
 </body>
 </html>
